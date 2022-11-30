@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=paleo_hurricane_api
+POSTGRES_USER=aIjKaMuSDqbijpPqXaDscDaSkTJKIPvz
+POSTGRES_PASSWORD=WJIRiT96srrdhg2UOlcSqAkXuW3cPMoHxUlmFnrReHRYzTwVQJAOIU8S7NsJBFlD
