@@ -1,6 +1,7 @@
 from django.apps import AppConfig
+from django.utils.translation import gettext_lazy as _
 
 
 class DataSitesConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'data_sites'
+    name = "paleo_hurricane_api.data_sites"
+    verbose_name = _("Data Sites")

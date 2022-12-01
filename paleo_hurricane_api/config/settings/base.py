@@ -68,11 +68,12 @@ THIRD_PARTY_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
     "allauth",
-    "allauth.account",
     "rest_framework",
     "rest_framework.authtoken",
+    "rest_framework_gis",
     "corsheaders",
     "drf_spectacular",
+    # "django_extensions",
 ]
 
 LOCAL_APPS = [
@@ -283,6 +284,7 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "COERCE_DECIMAL_TO_STRING": False,
 }
 
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup

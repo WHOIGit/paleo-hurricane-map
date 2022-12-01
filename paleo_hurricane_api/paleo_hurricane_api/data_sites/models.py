@@ -21,3 +21,25 @@ class DataSite(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Datapoint(models.Model):
+    data_site = models.ForeignKey(
+        DataSite,
+        related_name="datapoints",
+        on_delete=models.CASCADE,
+    )
+    depth = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    sand = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    event_index = models.IntegerField(null=True, blank=True)
+    median_age = models.DecimalField(
+        max_digits=5, decimal_places=1, null=True, blank=True
+    )
+    min_age = models.DecimalField(max_digits=5, decimal_places=1, null=True, blank=True)
+    max_age = models.DecimalField(max_digits=5, decimal_places=1, null=True, blank=True)
+
+    class Meta:
+        ordering = ["depth"]
+
+    def __str__(self):
+        return f"{self.data_site.name} - Depth: {self.depth}"

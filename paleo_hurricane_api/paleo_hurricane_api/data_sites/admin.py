@@ -3,8 +3,9 @@ from .models import *
 from .forms import DataSiteForm
 
 # Register your models here.
-class DatasetAdmin(admin.GeoModelAdmin):
+class DataSiteAdmin(admin.GeoModelAdmin):
     form = DataSiteForm
 
 
-admin.site.register(DataSite, DatasetAdmin)
+admin.site.register(DataSite, DataSiteAdmin)
+admin.site.register(Datapoint, admin.ModelAdmin)
