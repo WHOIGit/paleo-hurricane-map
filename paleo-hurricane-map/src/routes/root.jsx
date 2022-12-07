@@ -1,16 +1,23 @@
 import * as React from "react";
-import Container from "@mui/material/Container";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Link from "@mui/material/Link";
-import Box from "@mui/material/Box";
-import { Outlet } from "react-router-dom";
-// local imports
-import Logo from "../assets/WHOI_Primary-Logo.png";
-import Copyright from "../components/Copyright";
-import theme from "../theme";
-
+import Map, { NavigationControl } from "react-map-gl";
+import maplibregl from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
+// local import
+import MapMarkers from "../components/MapMarkers";
 export default function Root() {
-  return <div>MAP goes here </div>;
+  return (
+    <Map
+      initialViewState={{
+        latitude: 37.8,
+        longitude: -122.4,
+        zoom: 7,
+      }}
+      mapLib={maplibregl}
+      style={{ height: "100vh", width: "100%" }}
+      mapStyle="https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json"
+    >
+      <NavigationControl />
+      <MapMarkers />
+    </Map>
+  );
 }
