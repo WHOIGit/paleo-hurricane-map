@@ -8,9 +8,9 @@ export default function Root() {
   return (
     <Map
       initialViewState={{
-        latitude: 37.8,
-        longitude: -122.4,
-        zoom: 7,
+        latitude: 26.0,
+        longitude: -77.0,
+        zoom: 5,
       }}
       mapLib={maplibregl}
       style={{ height: "100vh", width: "100%" }}
