@@ -11,6 +11,8 @@ export default function useDataSites(id) {
     fetcher
   );
 
+  console.log(data, error);
+
   return {
     data: data,
     isLoading: !error && !data,

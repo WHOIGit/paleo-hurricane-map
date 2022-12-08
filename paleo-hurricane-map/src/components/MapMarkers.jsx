@@ -8,8 +8,6 @@ export default function MapMarkers() {
   const { data, isLoading, isError } = useDataSites();
   const [popupFeature, setPopupFeature] = useState(null);
 
-  console.log(data, isError);
-
   if (isLoading) return null;
   if (isError) return null;
   return (
