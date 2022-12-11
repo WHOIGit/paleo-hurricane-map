@@ -9,6 +9,8 @@ import { Popup } from "react-map-gl";
 import useDataSites from "../hooks/useDataSites";
 import ChartDepth from "./ChartDepth";
 import "./MapPopup.css";
+import ChartEventIndex from "./ChartEventIndex";
+import ChartAgeModel from "./ChartAgeModel";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -64,7 +66,9 @@ export default function MapPopup({ feature, setPopupFeature }) {
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs value={value} onChange={handleChange} aria-label="data tabs">
             <Tab label="Metadata" {...a11yProps(0)} />
-            <Tab label="Data Charts" {...a11yProps(1)} />
+            <Tab label="Depth/Sand" {...a11yProps(1)} />
+            <Tab label="Age of Events" {...a11yProps(2)} />
+            <Tab label="Age Model" {...a11yProps(3)} />
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
@@ -75,6 +79,12 @@ export default function MapPopup({ feature, setPopupFeature }) {
         </TabPanel>
         <TabPanel value={value} index={1}>
           {data && <ChartDepth data={data.properties.data} />}
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          {data && <ChartEventIndex data={data.properties.data} />}
+        </TabPanel>
+        <TabPanel value={value} index={3}>
+          {data && <ChartAgeModel data={data.properties.data} />}
         </TabPanel>
       </Box>
     </Popup>
