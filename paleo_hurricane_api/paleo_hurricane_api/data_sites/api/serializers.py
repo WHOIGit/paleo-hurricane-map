@@ -12,6 +12,8 @@ class DatapointSerializer(serializers.ModelSerializer):
 
 
 class DataSiteListSerializer(GeoFeatureModelSerializer):
+    timespan = serializers.SerializerMethodField("get_timespan")
+
     class Meta:
         model = DataSite
         geo_field = "geom_point"
@@ -25,11 +27,29 @@ class DataSiteListSerializer(GeoFeatureModelSerializer):
             "authors",
             "publication_title",
             "publication_year",
+            "publication_journal",
+            "publication_volume",
+            "publication_edition",
+            "publication_issue",
+            "publication_pages",
+            "publication_report_number",
+            "publication_doi",
             "online_resource",
             "oldest_year",
             "newest_year",
             "core_length",
+            "proxy_type",
+            "compilation",
+            "resolution",
+            "timespan",
         ]
+
+    def get_timespan(self, obj):
+        try:
+            timespan = obj.newest_year - obj.oldest_year
+            return timespan
+        except:
+            return None
 
 
 class DataSiteDetailSerializer(DataSiteListSerializer):

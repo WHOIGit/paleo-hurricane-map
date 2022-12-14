@@ -23,7 +23,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: 1 }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -73,8 +73,53 @@ export default function MapPopup({ feature, setPopupFeature }) {
         </Box>
         <TabPanel value={value} index={0}>
           <div>
-            <h2>{feature.properties.name}</h2>
-            <p>{feature.properties.location}</p>
+            <Typography variant="h6" gutterBottom>
+              {feature.properties.name}
+            </Typography>
+            <Typography variant="body2" gutterBottom>
+              Location: {feature.properties.location} (
+              {feature.geometry.coordinates[1]}&deg;,{" "}
+              {feature.geometry.coordinates[0]}&deg;)
+            </Typography>
+            <Typography variant="body2" gutterBottom>
+              Publication: {feature.properties.authors}. (
+              {feature.properties.publication_year}).{" "}
+              {feature.properties.publication_title}.{" "}
+              <em>{feature.properties.publication_journal}</em>
+              {feature.properties.publication_volume && ", "}
+              {feature.properties.publication_volume}
+              {feature.properties.publication_edition && ", "}
+              {feature.properties.publication_edition}
+              {feature.properties.publication_issue && ", "}
+              {feature.properties.publication_issue}
+              {feature.properties.publication_report_number && ", "}
+              {feature.properties.publication_report_number}
+              {feature.properties.publication_pages && ", "}
+              {feature.properties.publication_pages}. https://doi.org/
+              {feature.properties.publication_doi}
+            </Typography>
+
+            <Typography variant="body2" gutterBottom>
+              Proxy Type: {feature.properties.proxy_type}
+            </Typography>
+
+            <Typography variant="body2" gutterBottom>
+              Compilation: {feature.properties.compilation}
+            </Typography>
+
+            <Typography variant="body2" gutterBottom>
+              Timespan of Record: {feature.properties.timespan}
+            </Typography>
+
+            <Typography variant="body2" gutterBottom>
+              Resolution: {feature.properties.resolution}
+            </Typography>
+
+            <Typography variant="body2" gutterBottom>
+              <em>
+                Cite the original study and PaleoHurDat when using this data.
+              </em>
+            </Typography>
           </div>
         </TabPanel>
         <TabPanel value={value} index={1}>
