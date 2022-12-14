@@ -23,7 +23,7 @@ export default function ChartAgeModel({ data }) {
         text: "Age Model",
       },
       xAxis: {
-        offset: 0,
+        offset: -110,
         title: {
           enabled: true,
           text: "Depth (cm)",
@@ -72,6 +72,7 @@ export default function ChartAgeModel({ data }) {
     setChartIsLoaded(true);
   }, [data]);
 
+  /*
   useEffect(() => {
     if (chartRef.current) {
       console.log("Setting axis");
@@ -87,7 +88,7 @@ export default function ChartAgeModel({ data }) {
       );
     }
   }, [chartRef.current]);
-
+  */
   return (
     <HighchartsReact
       highcharts={Highcharts}
