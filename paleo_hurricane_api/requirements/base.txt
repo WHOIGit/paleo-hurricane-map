@@ -26,3 +26,4 @@ drf-spectacular==0.24.2  # https://github.com/tfranzel/drf-spectacular
 
 # Custom requirements
 django-geojson==4.0.0
+django-multiupload==0.6.1

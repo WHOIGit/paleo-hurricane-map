@@ -54,7 +54,9 @@ class DataSite(models.Model):
     online_resource = models.CharField(max_length=100, null=False, blank=True)
     oldest_year = models.IntegerField(null=True, blank=True)
     newest_year = models.IntegerField(null=True, blank=True)
-    core_length = models.DecimalField(max_digits=6, decimal_places=3)
+    core_length = models.DecimalField(
+        max_digits=6, decimal_places=3, null=True, blank=True
+    )
     proxy_type = models.CharField(
         max_length=30,
         choices=PROXY_CHOICES,
@@ -89,16 +91,23 @@ class Datapoint(models.Model):
         on_delete=models.CASCADE,
     )
     depth = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    sand = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    sand = models.DecimalField(max_digits=7, decimal_places=4, null=True, blank=True)
     event_index = models.IntegerField(null=True, blank=True)
     median_age = models.DecimalField(
-        max_digits=5, decimal_places=1, null=True, blank=True
+        max_digits=7, decimal_places=3, null=True, blank=True
     )
-    min_age = models.DecimalField(max_digits=5, decimal_places=1, null=True, blank=True)
-    max_age = models.DecimalField(max_digits=5, decimal_places=1, null=True, blank=True)
+    min_age = models.DecimalField(max_digits=7, decimal_places=3, null=True, blank=True)
+    max_age = models.DecimalField(max_digits=7, decimal_places=3, null=True, blank=True)
 
     class Meta:
         ordering = ["depth"]
 
     def __str__(self):
         return f"{self.data_site.name} - Depth: {self.depth}"
+
+
+class DataFile(models.Model):
+    data_set = models.ForeignKey(
+        DataSite, related_name="data_files", on_delete=models.CASCADE
+    )
+    file = models.FileField(upload_to="data_files")

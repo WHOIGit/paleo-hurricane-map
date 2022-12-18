@@ -1,4 +1,5 @@
 import csv
+import math
 from paleo_hurricane_api.data_sites.models import Datapoint, DataSite
 
 
@@ -16,13 +17,14 @@ def run():
                 print(f"No matching Data Site - {row}")
                 continue
 
-            datapoint = Datapoint(
-                depth=row[0],
-                sand=row[1],
-                event_index=row[2],
-                median_age=row[3],
-                min_age=row[4],
-                max_age=row[5],
-                data_site=site,
-            )
-            datapoint.save()
+            if isinstance(row[0], float):
+                datapoint = Datapoint(
+                    depth=row[0],
+                    sand=row[1],
+                    event_index=row[2],
+                    median_age=row[3],
+                    min_age=row[4],
+                    max_age=row[5],
+                    data_site=site,
+                )
+                datapoint.save()
