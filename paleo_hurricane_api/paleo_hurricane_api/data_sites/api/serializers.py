@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
-from ..models import DataSite, Datapoint
+from ..models import DataSite, Datapoint, DataFile
 
 
 class DatapointSerializer(serializers.ModelSerializer):
@@ -11,8 +11,17 @@ class DatapointSerializer(serializers.ModelSerializer):
         exclude = ["id", "data_site"]
 
 
+class DataFileSerializer(serializers.ModelSerializer):
+    """A class to serialize locations as GeoJSON compatible data"""
+
+    class Meta:
+        model = DataFile
+        fields = ["file"]
+
+
 class DataSiteListSerializer(GeoFeatureModelSerializer):
     timespan = serializers.SerializerMethodField("get_timespan")
+    data_files = DataFileSerializer(many=True)
 
     class Meta:
         model = DataSite
@@ -42,6 +51,7 @@ class DataSiteListSerializer(GeoFeatureModelSerializer):
             "compilation",
             "resolution",
             "timespan",
+            "data_files",
         ]
 
     def get_timespan(self, obj):
