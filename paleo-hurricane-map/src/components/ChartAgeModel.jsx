@@ -23,7 +23,7 @@ export default function ChartAgeModel({ data }) {
         text: "Age Model",
       },
       xAxis: {
-        offset: -110,
+        //offset: -110,
         title: {
           enabled: true,
           text: "Depth (cm)",
@@ -32,7 +32,7 @@ export default function ChartAgeModel({ data }) {
       yAxis: {
         offset: 0,
         title: {
-          text: "Age (years CE)",
+          text: "Age",
         },
       },
       legend: {

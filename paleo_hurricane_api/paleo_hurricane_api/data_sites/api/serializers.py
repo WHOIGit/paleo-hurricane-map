@@ -56,7 +56,7 @@ class DataSiteListSerializer(GeoFeatureModelSerializer):
 
     def get_timespan(self, obj):
         try:
-            timespan = obj.newest_year - obj.oldest_year
+            timespan = abs(obj.newest_year - obj.oldest_year)
             return timespan
         except:
             return None

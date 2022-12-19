@@ -41,7 +41,7 @@ export default function Layout() {
           />
 
           <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
-            PaleoHurrdat
+            PaleoHurdat
           </Typography>
           <nav>
             <Link variant="button" color="#fff" href="/" sx={navLinkSX}>

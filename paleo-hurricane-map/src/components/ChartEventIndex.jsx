@@ -26,7 +26,7 @@ export default function ChartEventIndex({ data }) {
         },
       },
       yAxis: {
-        offset: -135,
+        //offset: -135,
         lineWidth: 1,
         lineColor: "black",
         min: 0,

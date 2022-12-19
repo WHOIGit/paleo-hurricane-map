@@ -4,6 +4,8 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import DownloadIcon from "@mui/icons-material/Download";
 import { Popup } from "react-map-gl";
 // local imports
 import useDataSites from "../hooks/useDataSites";
@@ -11,6 +13,7 @@ import ChartDepth from "./ChartDepth";
 import "./MapPopup.css";
 import ChartEventIndex from "./ChartEventIndex";
 import ChartAgeModel from "./ChartAgeModel";
+import theme from "../theme";
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -52,6 +55,19 @@ export default function MapPopup({ feature, setPopupFeature }) {
     setValue(newValue);
   };
 
+  const renderFilelink = (datafile) => {
+    return (
+      <Button
+        variant="outlined"
+        href={datafile.file}
+        sx={{ my: 1 }}
+        startIcon={<DownloadIcon />}
+      >
+        Download Excel File
+      </Button>
+    );
+  };
+
   return (
     <Popup
       anchor="top"
@@ -66,9 +82,15 @@ export default function MapPopup({ feature, setPopupFeature }) {
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs value={value} onChange={handleChange} aria-label="data tabs">
             <Tab label="Metadata" {...a11yProps(0)} />
-            <Tab label="Depth/Sand" {...a11yProps(1)} />
-            <Tab label="Age of Events" {...a11yProps(2)} />
-            <Tab label="Age Model" {...a11yProps(3)} />
+            {data?.properties.data.length && (
+              <Tab label="Depth/Sand" {...a11yProps(1)} />
+            )}
+            {data?.properties.data.length && (
+              <Tab label="Age of Events" {...a11yProps(2)} />
+            )}
+            {data?.properties.data.length && (
+              <Tab label="Age Model" {...a11yProps(3)} />
+            )}
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
@@ -114,6 +136,10 @@ export default function MapPopup({ feature, setPopupFeature }) {
             <Typography variant="body2" gutterBottom>
               Resolution: {feature.properties.resolution}
             </Typography>
+            <hr />
+            {feature.properties.data_files.map((datafile) =>
+              renderFilelink(datafile)
+            )}
 
             <Typography variant="body2" gutterBottom>
               <em>
