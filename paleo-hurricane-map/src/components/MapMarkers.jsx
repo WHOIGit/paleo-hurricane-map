@@ -7,9 +7,8 @@ import MapPopup from "./MapPopup";
 const GeoShape = ({ item }) => {
   // render any Geo shapes attached to this location
   const layerStyle = {
-    id: "geoshape",
+    id: `geoshape-${item.id}`,
     type: "fill",
-    source: "closures-src",
     paint: {
       "fill-color": "orange",
       "fill-opacity": 0.5,
@@ -18,13 +17,14 @@ const GeoShape = ({ item }) => {
   };
 
   let geojson = item.properties.geom_polygon;
-  if (!item.properties.geom_polygon) geojson = item.properties.geom_line;
 
-  if (!item.properties.geom_polygon && !item.properties.geom_line) {
+  if (geojson === null) geojson = item.properties.geom_line;
+
+  if (geojson === null) {
     return null;
   }
   return (
-    <Source id="geoshape" type="geojson" data={geojson}>
+    <Source id={`geoshape-${item.id}`} type="geojson" data={geojson}>
       <Layer {...layerStyle} />
     </Source>
   );
