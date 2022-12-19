@@ -64,6 +64,8 @@ SECURE_CONTENT_TYPE_NOSNIFF = env.bool(
 # STATIC
 # ------------------------
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+WHITENOISE_STATIC_PREFIX = "/static/"
+STATIC_URL = "/services" + WHITENOISE_STATIC_PREFIX
 # MEDIA
 # ------------------------------------------------------------------------------
 
