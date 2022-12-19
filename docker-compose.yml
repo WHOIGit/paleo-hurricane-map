@@ -1,0 +1,46 @@
+version: '3'
+
+volumes:
+  paleohurdat_production_postgres_data: {}
+  paleohurdat_production_postgres_data_backups: {}
+  paleohurdat_media_volume: {}
+
+services:
+  paleohurdat_react:
+    image: ghcr.io/whoigit/paleohurdat-react-map:stable
+    container_name: paleohurdat_react
+    restart: unless-stopped
+
+  paleohurdat_django:
+    image: ghcr.io/whoigit/paleohurdat-api:stable
+    container_name: paleohurdat_django
+    depends_on:
+      - paleohurdat_postgres
+      - paleohurdat_redis
+    volumes:
+      - paleohurdat_media_volume:/app/media # <-- bind the media files
+    env_file:
+      - ./.envs/.production/.django
+      - ./.envs/.production/.postgres
+    command: /start
+    restart: unless-stopped
+
+  paleohurdat_postgres:
+    image: ghcr.io/whoigit/postgres-postgis-docker:14
+    container_name: paleohurdat_postgres
+    volumes:
+      - production_postgres_data:/var/lib/postgresql/data:Z
+      - production_postgres_data_backups:/backups:z
+    env_file:
+      - ./.envs/.production/.postgres
+    restart: unless-stopped
+
+  paleohurdat_redis:
+    image: redis:6
+    container_name: paleohurdat_redis
+    restart: unless-stopped
+
+networks:
+  default:
+    external:
+      name: habhub-network
