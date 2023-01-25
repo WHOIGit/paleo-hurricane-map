@@ -11,4 +11,3 @@ venv
 .envs
 .env.local
 node_modules
-production

@@ -20,6 +20,7 @@ ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=["whoi.edu"])
 DATABASES["default"] = env.db("DATABASE_URL")  # noqa F405
 DATABASES["default"]["ATOMIC_REQUESTS"] = True  # noqa F405
 DATABASES["default"]["CONN_MAX_AGE"] = env.int("CONN_MAX_AGE", default=60)  # noqa F405
+DATABASES["default"]["ENGINE"] = "django.contrib.gis.db.backends.postgis"
 
 # CACHES
 # ------------------------------------------------------------------------------
@@ -68,6 +69,13 @@ WHITENOISE_STATIC_PREFIX = "/static/"
 STATIC_URL = "/services" + WHITENOISE_STATIC_PREFIX
 # MEDIA
 # ------------------------------------------------------------------------------
+
+# MEDIA
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/dev/ref/settings/#media-root
+MEDIA_ROOT = "/app/media"
+# https://docs.djangoproject.com/en/dev/ref/settings/#media-url
+MEDIA_URL = "/media/"
 
 # EMAIL
 # ------------------------------------------------------------------------------

@@ -18,7 +18,7 @@ services:
       - paleohurdat_postgres
       - paleohurdat_redis
     volumes:
-      - paleohurdat_media_volume:/app/media # <-- bind the media files
+      - paleohurdat_media_volume:/app/media # <-- bind the media files. Shared volume. Need to also bind to nginx container service
     env_file:
       - ./.envs/.production/.django
       - ./.envs/.production/.postgres
@@ -29,8 +29,8 @@ services:
     image: ghcr.io/whoigit/postgres-postgis-docker:14
     container_name: paleohurdat_postgres
     volumes:
-      - production_postgres_data:/var/lib/postgresql/data:Z
-      - production_postgres_data_backups:/backups:z
+      - paleohurdat_production_postgres_data:/var/lib/postgresql/data:Z
+      - paleohurdat_production_postgres_data_backups:/backups:z
     env_file:
       - ./.envs/.production/.postgres
     restart: unless-stopped

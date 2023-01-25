@@ -57,14 +57,15 @@ export default function MapPopup({ feature, setPopupFeature }) {
 
   const renderFilelink = (datafile) => {
     return (
-      <Button
-        variant="outlined"
-        href={datafile.file}
-        sx={{ my: 1 }}
-        startIcon={<DownloadIcon />}
-      >
-        Download Excel File
-      </Button>
+      <Box sx={{ my: 1 }}>
+        <Button
+          variant="outlined"
+          href={datafile.file}
+          startIcon={<DownloadIcon />}
+        >
+          Download Excel File
+        </Button>
+      </Box>
     );
   };
 

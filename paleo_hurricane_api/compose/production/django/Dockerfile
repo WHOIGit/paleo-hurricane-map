@@ -47,6 +47,8 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   libpq-dev \
   # Translations dependencies
   gettext \
+  # geodjango
+  gdal-bin binutils libproj-dev libgdal-dev \
   # cleaning up unused files
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
@@ -73,10 +75,12 @@ RUN chmod +x /start
 # copy application code to WORKDIR
 COPY --chown=django:django . ${APP_HOME}
 
-RUN mkdir ${APP_HOME}/media
-
 # make django owner of the WORKDIR directory as well.
 RUN chown django:django ${APP_HOME}
+
+# set media directory for Docker volume to use
+RUN mkdir ${APP_HOME}/media
+RUN chown django:django ${APP_HOME}/media
 
 USER django
 

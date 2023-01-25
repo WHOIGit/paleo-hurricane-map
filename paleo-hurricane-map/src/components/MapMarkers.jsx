@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { Marker, Source, Layer } from "react-map-gl";
 // local imports
 import useDataSites from "../hooks/useDataSites";
 import MapPopup from "./MapPopup";
+import FilterBox from "./FilterBox";
+import { useEffect } from "react";
 
 const GeoShape = ({ item }) => {
   // render any Geo shapes attached to this location
@@ -31,15 +33,77 @@ const GeoShape = ({ item }) => {
 };
 
 export default function MapMarkers() {
+  const [proxy, setProxy] = React.useState("");
+  const [compilation, setCompilation] = React.useState("");
+  const [timespan, setTimespan] = React.useState("");
+  const [resolution, setResolution] = React.useState("");
+  const [mapData, setMapData] = React.useState(null);
   const { data, isLoading, isError } = useDataSites();
-  const [popupFeature, setPopupFeature] = useState(null);
+  const [popupFeature, setPopupFeature] = React.useState(null);
+
+  useEffect(() => {
+    // filter results by form inputs
+    if (data) {
+      // check if any filters are set
+      if (proxy || compilation || timespan || resolution) {
+        console.log("filter set");
+        const newFeatures = data.features.filter((item) => {
+          let proxyCheck = true;
+          let compilationCheck = true;
+          let timespanCheck = true;
+          let resolutionCheck = true;
+
+          if (proxy) {
+            proxyCheck = item.properties.proxy_type === proxy;
+          }
+
+          if (compilation) {
+            compilationCheck = item.properties.compilation === compilation;
+          }
+
+          if (timespan) {
+            console.log(timespan.split(","));
+            const timeArray = timespan.split(",");
+            timespanCheck =
+              item.properties.timespan >= timeArray[0] &&
+              item.properties.timespan <= timeArray[1];
+          }
+
+          if (resolution) {
+            resolutionCheck = item.properties.resolution === resolution;
+          }
+
+          return (
+            proxyCheck && compilationCheck && timespanCheck & resolutionCheck
+          );
+        });
+
+        const newData = { type: "FeatureCollection", features: newFeatures };
+        console.log("NEW DATA", newData);
+        setMapData(newData);
+      } else {
+        setMapData(data);
+      }
+    }
+  }, [data, proxy, compilation, timespan, resolution]);
 
   if (isLoading) return null;
   if (isError) return null;
   return (
     <div>
-      {data &&
-        data.features.map((item) => (
+      <FilterBox
+        proxy={proxy}
+        setProxy={setProxy}
+        compilation={compilation}
+        setCompilation={setCompilation}
+        timespan={timespan}
+        setTimespan={setTimespan}
+        resolution={resolution}
+        setResolution={setResolution}
+      />
+
+      {mapData &&
+        mapData.features.map((item) => (
           <div key={`marker-${item.id}`}>
             <Marker
               longitude={item.geometry.coordinates[0]}
