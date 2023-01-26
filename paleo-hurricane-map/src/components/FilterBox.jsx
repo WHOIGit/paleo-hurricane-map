@@ -1,5 +1,4 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -7,10 +6,12 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import Button from "@mui/material/Button";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const filterSX = {
   width: 250,
-  height: 340,
+  height: 380,
   position: "absolute",
   top: 10,
   left: 10,
@@ -41,6 +42,13 @@ export default function FilterBox({
 
   const handleResolutionChange = (event) => {
     setResolution(event.target.value);
+  };
+
+  const clearFilters = () => {
+    setProxy("");
+    setCompilation("");
+    setTimespan("");
+    setResolution("");
   };
 
   console.log(timespan);
@@ -138,6 +146,10 @@ export default function FilterBox({
             <MenuItem value={">100 years"}>&gt;100 years</MenuItem>
           </Select>
         </FormControl>
+
+        <Button size="small" startIcon={<ClearIcon />} onClick={clearFilters}>
+          Clear Filters
+        </Button>
       </CardContent>
     </Card>
   );
