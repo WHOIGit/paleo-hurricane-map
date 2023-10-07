@@ -2,6 +2,32 @@ from django.contrib.gis.db import models
 from django.contrib.gis.geos import Polygon
 
 
+class Compilation(models.Model):
+
+    study_title = models.CharField(max_length=100)
+    location = models.CharField(max_length=100, null=False, blank=True)
+    authors = models.CharField(max_length=255, null=False, blank=True)
+    publication_title = models.CharField(max_length=255, null=False, blank=True)
+    publication_year = models.IntegerField(null=True, blank=True)
+    publication_journal = models.CharField(max_length=100, null=False, blank=True)
+    publication_volume = models.CharField(max_length=100, null=False, blank=True)
+    publication_edition = models.CharField(max_length=100, null=False, blank=True)
+    publication_issue = models.CharField(max_length=100, null=False, blank=True)
+    publication_pages = models.CharField(max_length=100, null=False, blank=True)
+    publication_report_number = models.CharField(max_length=100, null=False, blank=True)
+    publication_doi = models.CharField(max_length=100, null=False, blank=True)
+    online_resource = models.CharField(max_length=100, null=False, blank=True)
+    oldest_year = models.IntegerField(null=True, blank=True)
+    newest_year = models.IntegerField(null=True, blank=True)
+    document = models.FileField(upload_to="compilations/", null=True, blank=True)
+
+    class Meta:
+        ordering = ["location"]
+
+    def __str__(self):
+        return f"{self.location}"
+
+
 class DataSite(models.Model):
     SEDIMENT = "Sediment"
     ARCHIVE = "Historical Archive"
@@ -12,19 +38,6 @@ class DataSite(models.Model):
         (ARCHIVE, "Historical Archive"),
         (TREE_RING, "Tree Ring"),
         (CORALS, "Speleothem/Corals"),
-    ]
-
-    BAHAMAS = "Bahamas Compilation"
-    NEW_ENGLAND = "New England Compilation"
-    FLORIDA = "Florida Gulf of Mexico Compilation"
-    MANN = "Mann et al. 2009 Compilation"
-    NA = "N/A"
-    COMP_CHOICES = [
-        (BAHAMAS, "Bahamas Compilation"),
-        (NEW_ENGLAND, "New England Compilation"),
-        (FLORIDA, "Florida Gulf of Mexico Compilation"),
-        (MANN, "Mann et al. 2009 Compilation"),
-        (NA, "N/A"),
     ]
 
     YEARS_0_20 = "0-20 years"
@@ -62,10 +75,11 @@ class DataSite(models.Model):
         choices=PROXY_CHOICES,
         default=SEDIMENT,
     )
-    compilation = models.CharField(
-        max_length=50,
-        choices=COMP_CHOICES,
-        null=False,
+    compilation = models.ForeignKey(
+        Compilation,
+        related_name="data_sites",
+        on_delete=models.CASCADE,
+        null=True,
         blank=True,
     )
     resolution = models.CharField(

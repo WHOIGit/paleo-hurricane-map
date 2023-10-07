@@ -1,6 +1,14 @@
 from rest_framework import serializers
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
-from ..models import DataSite, Datapoint, DataFile
+from ..models import DataSite, Datapoint, DataFile, Compilation
+
+
+class CompilationSerializer(serializers.ModelSerializer):
+    """A class to serialize locations as GeoJSON compatible data"""
+
+    class Meta:
+        model = Compilation
+        fields = "__all__"
 
 
 class DatapointSerializer(serializers.ModelSerializer):

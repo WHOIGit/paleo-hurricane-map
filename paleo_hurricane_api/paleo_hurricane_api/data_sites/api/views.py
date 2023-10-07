@@ -1,6 +1,15 @@
 from rest_framework import viewsets, status
-from ..models import DataSite
-from .serializers import DataSiteListSerializer, DataSiteDetailSerializer
+from ..models import DataSite, Compilation
+from .serializers import (
+    DataSiteListSerializer,
+    DataSiteDetailSerializer,
+    CompilationSerializer,
+)
+
+
+class CompilationViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Compilation.objects.all()
+    serializer_class = CompilationSerializer
 
 
 class DataSiteViewSet(viewsets.ReadOnlyModelViewSet):

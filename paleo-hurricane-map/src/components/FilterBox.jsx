@@ -8,6 +8,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
 import ClearIcon from "@mui/icons-material/Clear";
+import useCompilations from "../hooks/useCompilations";
 
 const filterSX = {
   width: 250,
@@ -28,6 +29,9 @@ export default function FilterBox({
   resolution,
   setResolution,
 }) {
+  const { data, isLoading, isError } = useCompilations();
+  console.log(data);
+
   const handleProxyChange = (event) => {
     setProxy(event.target.value);
   };
@@ -51,7 +55,8 @@ export default function FilterBox({
     setResolution("");
   };
 
-  console.log(timespan);
+  if (!data) return null;
+
   return (
     <Card sx={filterSX}>
       <CardContent>
@@ -78,8 +83,10 @@ export default function FilterBox({
             </MenuItem>
             <MenuItem value={"Sediment"}>Sediment</MenuItem>
             <MenuItem value={"Historical Archive"}>Historical Archive</MenuItem>
+            {/*
             <MenuItem value={"Tree Ring"}>Tree Ring</MenuItem>
             <MenuItem value={"Speleothem/Corals"}>Speleothem/Corals</MenuItem>
+            */}
           </Select>
         </FormControl>
 
@@ -95,19 +102,9 @@ export default function FilterBox({
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            <MenuItem value={"Bahamas Compilation"}>
-              Bahamas Compilation
-            </MenuItem>
-            <MenuItem value={"New England Compilation"}>
-              New England Compilation
-            </MenuItem>
-            <MenuItem value={"Florida Gulf of Mexico Compilation"}>
-              Florida Gulf of Mexico Compilation
-            </MenuItem>
-            <MenuItem value={"Mann et al. 2009 Compilation"}>
-              Mann et al. 2009 Compilation
-            </MenuItem>
-            <MenuItem value={"N/A"}>N/A</MenuItem>
+            {data?.map((item) => {
+              return <MenuItem value={item.id}>{item.location}</MenuItem>;
+            })}
           </Select>
         </FormControl>
 

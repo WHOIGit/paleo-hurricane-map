@@ -13,5 +13,6 @@ class DataSiteAdmin(admin.GeoModelAdmin):
     inlines = [AttachmentInline]
 
 
+admin.site.register(Compilation)
 admin.site.register(DataSite, DataSiteAdmin)
 admin.site.register(Datapoint, admin.ModelAdmin)
