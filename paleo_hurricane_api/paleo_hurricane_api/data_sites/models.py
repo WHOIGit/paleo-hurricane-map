@@ -40,13 +40,13 @@ class DataSite(models.Model):
         (CORALS, "Speleothem/Corals"),
     ]
 
-    YEARS_0_20 = "0-20 years"
-    YEARS_21_100 = "21-100 years"
-    YEARS_100 = ">100 years"
+    YEARS_0_3 = "0-3 years"
+    YEARS_3_30 = "3-30 years"
+    YEARS_30 = ">30 years"
     RESOLUTION_CHOICES = [
-        (YEARS_0_20, "0-20 years"),
-        (YEARS_21_100, "21-100 years"),
-        (YEARS_100, ">100 years"),
+        (YEARS_0_3, "0-3 years"),
+        (YEARS_3_30, "3-30 years"),
+        (YEARS_30, ">30 years"),
     ]
 
     name = models.CharField(max_length=100)

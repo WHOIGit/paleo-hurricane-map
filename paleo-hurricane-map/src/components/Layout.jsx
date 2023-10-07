@@ -8,7 +8,6 @@ import Box from "@mui/material/Box";
 import { Outlet } from "react-router-dom";
 // local imports
 import Logo from "../assets/WHOI_Primary-Logo.png";
-import Copyright from "./Copyright";
 import theme from "../theme";
 
 const navLinkSX = {
@@ -56,7 +55,6 @@ export default function Layout() {
       <Container maxWidth="false" component="main" disableGutters>
         <Outlet />
       </Container>
-      <Copyright />
     </>
   );
 }

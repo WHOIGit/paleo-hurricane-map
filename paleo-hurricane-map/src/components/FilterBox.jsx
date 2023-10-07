@@ -138,9 +138,9 @@ export default function FilterBox({
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
-            <MenuItem value={"0-20 years"}>0-20 years</MenuItem>
-            <MenuItem value={"21-100 years"}>21-100 years</MenuItem>
-            <MenuItem value={">100 years"}>&gt;100 years</MenuItem>
+            <MenuItem value={"0-3 years"}>0-3 years</MenuItem>
+            <MenuItem value={"3-30 years"}>3-30 years</MenuItem>
+            <MenuItem value={">30 years"}>&gt;30 years</MenuItem>
           </Select>
         </FormControl>
 

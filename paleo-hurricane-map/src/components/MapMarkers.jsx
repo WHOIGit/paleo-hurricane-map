@@ -4,6 +4,7 @@ import { Marker, Source, Layer } from "react-map-gl";
 import useDataSites from "../hooks/useDataSites";
 import MapPopup from "./MapPopup";
 import FilterBox from "./FilterBox";
+import CompilationBox from "./CompilationBox";
 import { useEffect } from "react";
 
 const GeoShape = ({ item }) => {
@@ -101,6 +102,8 @@ export default function MapMarkers() {
         resolution={resolution}
         setResolution={setResolution}
       />
+
+      {compilation && <CompilationBox compilation={compilation} />}
 
       {mapData &&
         mapData.features.map((item) => (
