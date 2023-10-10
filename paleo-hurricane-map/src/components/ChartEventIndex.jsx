@@ -9,7 +9,9 @@ export default function ChartEventIndex({ data }) {
   const [chartOptions, setChartOptions] = useState({});
 
   useEffect(() => {
-    const chartData = data.map((item) => [item.median_age, item.event_index]);
+    const chartData = data
+      .filter((item) => item.event_index)
+      .map((item) => [item.median_age, item.event_index]);
     console.log(chartData);
     const chartOptions = {
       chart: {
@@ -31,7 +33,14 @@ export default function ChartEventIndex({ data }) {
         lineColor: "black",
         min: 0,
         title: {
+          text: "Event",
+        },
+        tickInterval: 2,
+        labels: {
           enabled: false,
+          formatter: function () {
+            return this.value;
+          },
         },
       },
       legend: {
