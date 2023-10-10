@@ -13,6 +13,12 @@ export default function ChartEventIndex({ data }) {
       .filter((item) => item.event_index)
       .map((item) => [item.median_age, item.event_index]);
     console.log(chartData);
+
+    const chartDataIntense = data
+      .filter((item) => item.intense_event_index)
+      .map((item) => [item.median_age, item.intense_event_index]);
+    console.log(chartDataIntense);
+
     const chartOptions = {
       chart: {
         type: "scatter",
@@ -44,7 +50,7 @@ export default function ChartEventIndex({ data }) {
         },
       },
       legend: {
-        enabled: false,
+        enabled: true,
       },
       tooltip: {
         formatter: function () {
@@ -63,7 +69,13 @@ export default function ChartEventIndex({ data }) {
       },
       series: [
         {
+          name: "Cat 1 and above events",
           data: chartData,
+        },
+        {
+          name: "Cat 3 and above events",
+          data: chartDataIntense,
+          color: "green",
         },
       ],
     };

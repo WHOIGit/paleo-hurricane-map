@@ -110,6 +110,7 @@ class Datapoint(models.Model):
     depth = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     sand = models.DecimalField(max_digits=7, decimal_places=4, null=True, blank=True)
     event_index = models.IntegerField(null=True, blank=True)
+    intense_event_index = models.IntegerField(null=True, blank=True)
     median_age = models.DecimalField(
         max_digits=7, decimal_places=3, null=True, blank=True
     )
