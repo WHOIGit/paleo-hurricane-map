@@ -15,8 +15,8 @@ export default function Root() {
           zoom: 2,
         }}
         mapLib={maplibregl}
-        style={{ height: "95vh", width: "100%" }}
-        mapStyle="https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json"
+        style={{ height: "92vh", width: "100%" }}
+        mapStyle="https://api.maptiler.com/maps/satellite/style.json?key=TmZ9aal6ExudHs1hVtCW"
       >
         <NavigationControl />
         <MapMarkers />

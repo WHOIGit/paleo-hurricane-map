@@ -9,7 +9,7 @@ import useCompilations from "../hooks/useCompilations";
 
 const filterSX = {
   width: 400,
-  height: 310,
+  height: 200,
   position: "absolute",
   bottom: 10,
   left: 10,
@@ -26,7 +26,7 @@ export default function CompilationBox({ compilation }) {
     <Card sx={filterSX}>
       <CardContent>
         <Typography
-          variant="body1"
+          variant="h6"
           color="text.secondary"
           gutterBottom
           sx={{ mb: 1 }}
@@ -35,15 +35,11 @@ export default function CompilationBox({ compilation }) {
         </Typography>
 
         <Typography variant="body1" gutterBottom>
-          <strong>Location: {data.location}</strong>
+          Location: {data.location}
         </Typography>
 
         <Typography variant="body2" gutterBottom>
           {data.study_title}
-        </Typography>
-        <Typography variant="body2" gutterBottom>
-          Publication: {data.authors}. ({data.publication_year}).{" "}
-          {data.publication_title}. <em>{data.publication_journal}</em>
         </Typography>
 
         <hr />

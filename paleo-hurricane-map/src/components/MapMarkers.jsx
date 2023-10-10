@@ -42,6 +42,8 @@ export default function MapMarkers() {
   const { data, isLoading, isError } = useDataSites();
   const [popupFeature, setPopupFeature] = React.useState(null);
 
+  console.log(mapData);
+
   useEffect(() => {
     // filter results by form inputs
     if (data) {
@@ -88,6 +90,35 @@ export default function MapMarkers() {
     }
   }, [data, proxy, compilation, timespan, resolution]);
 
+  const renderMarker = (item) => {
+    let markerColor = "blue";
+    // set marker color to match Compilation
+    if (item.properties.compilation == 1) {
+      markerColor = "orange";
+    } else if (item.properties.compilation == 2) {
+      markerColor = "green";
+    }
+    if (item.properties.compilation == 3) {
+      markerColor = "red";
+    }
+    return (
+      <div key={`marker-${item.id}`}>
+        <Marker
+          longitude={item.geometry.coordinates[0]}
+          latitude={item.geometry.coordinates[1]}
+          color={markerColor}
+          onClick={(e) => {
+            // If we let the click event propagates to the map, it will immediately close the popup
+            // with `closeOnClick: true`
+            e.originalEvent.stopPropagation();
+            setPopupFeature(item);
+          }}
+        />
+        <GeoShape item={item} />
+      </div>
+    );
+  };
+
   if (isLoading) return null;
   if (isError) return null;
   return (
@@ -105,23 +136,7 @@ export default function MapMarkers() {
 
       {compilation && <CompilationBox compilation={compilation} />}
 
-      {mapData &&
-        mapData.features.map((item) => (
-          <div key={`marker-${item.id}`}>
-            <Marker
-              longitude={item.geometry.coordinates[0]}
-              latitude={item.geometry.coordinates[1]}
-              color="red"
-              onClick={(e) => {
-                // If we let the click event propagates to the map, it will immediately close the popup
-                // with `closeOnClick: true`
-                e.originalEvent.stopPropagation();
-                setPopupFeature(item);
-              }}
-            />
-            <GeoShape item={item} />
-          </div>
-        ))}
+      {mapData && mapData.features.map((item) => renderMarker(item))}
 
       {popupFeature && (
         <MapPopup feature={popupFeature} setPopupFeature={setPopupFeature} />
