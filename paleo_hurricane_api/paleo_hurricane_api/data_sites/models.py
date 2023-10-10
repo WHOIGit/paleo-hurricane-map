@@ -89,6 +89,9 @@ class DataSite(models.Model):
         null=False,
         blank=True,
     )
+    depth_y_axis_label = models.CharField(
+        max_length=100, null=False, blank=True, default="Sand (mg/cm3)"
+    )
 
     class Meta:
         ordering = ["name"]

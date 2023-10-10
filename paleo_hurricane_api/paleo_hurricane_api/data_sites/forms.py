@@ -44,6 +44,7 @@ class DataSiteForm(forms.ModelForm):
             "oldest_year",
             "newest_year",
             "core_length",
+            "depth_y_axis_label",
         ]
 
     def __init__(self, *args, **kwargs):

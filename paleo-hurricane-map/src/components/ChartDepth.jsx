@@ -6,6 +6,7 @@ import HighchartsReact from "highcharts-react-official";
 window.Highcharts = Highcharts;
 
 export default function ChartDepth({ data }) {
+  console.log(data);
   const [chartOptions, setChartOptions] = useState({});
 
   useEffect(() => {

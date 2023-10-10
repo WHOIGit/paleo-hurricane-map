@@ -60,6 +60,7 @@ class DataSiteListSerializer(GeoFeatureModelSerializer):
             "resolution",
             "timespan",
             "data_files",
+            "depth_y_axis_label",
         ]
 
     def get_timespan(self, obj):
