@@ -150,7 +150,12 @@ export default function MapPopup({ feature, setPopupFeature }) {
           </div>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          {data && <ChartDepth data={data.properties.data} />}
+          {data && (
+            <ChartDepth
+              data={data.properties.data}
+              yAxisLabel={data.properties.depth_y_axis_label}
+            />
+          )}
         </TabPanel>
         <TabPanel value={value} index={2}>
           {data && <ChartEventIndex data={data.properties.data} />}

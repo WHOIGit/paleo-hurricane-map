@@ -5,7 +5,7 @@ import HighchartsReact from "highcharts-react-official";
 // Highcharts has internal references that rely on it being defined on the window
 window.Highcharts = Highcharts;
 
-export default function ChartDepth({ data }) {
+export default function ChartDepth({ data, yAxisLabel }) {
   console.log(data);
   const [chartOptions, setChartOptions] = useState({});
 
@@ -28,7 +28,7 @@ export default function ChartDepth({ data }) {
       },
       yAxis: {
         title: {
-          text: "Sand (mg/cm3)",
+          text: yAxisLabel,
         },
         min: 0,
       },
@@ -38,7 +38,7 @@ export default function ChartDepth({ data }) {
       tooltip: {
         formatter: function () {
           const text = `
-            <b>${this.series.name}</b>: ${this.y}  mg/cm3<br/><b>Depth</b>: ${this.x} cm
+            <b>${this.series.name}</b>: ${this.y}<br/><b>Depth (cm)</b>: ${this.x}
         `;
           return text;
         },
@@ -52,7 +52,7 @@ export default function ChartDepth({ data }) {
       },
       series: [
         {
-          name: "Sand",
+          name: yAxisLabel,
           data: chartData,
         },
       ],

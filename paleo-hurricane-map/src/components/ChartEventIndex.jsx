@@ -49,7 +49,7 @@ export default function ChartEventIndex({ data }) {
       tooltip: {
         formatter: function () {
           const text = `
-            <b>Event year: ${this.x}
+            <b>Event age: ${this.x}
         `;
           return text;
         },
