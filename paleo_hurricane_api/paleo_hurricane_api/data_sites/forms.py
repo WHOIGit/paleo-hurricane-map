@@ -61,3 +61,7 @@ class DataSiteForm(forms.ModelForm):
         if latitude and longitude:
             data["geom_point"] = Point(longitude, latitude)
         return data
+
+
+class DatapointCsvUploadForm(forms.Form):
+    datapoints_csv = forms.FileField()

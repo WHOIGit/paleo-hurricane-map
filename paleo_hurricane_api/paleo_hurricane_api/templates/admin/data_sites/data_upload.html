@@ -1,0 +1,53 @@
+{% extends 'admin/base_site.html' %}
+{% load crispy_forms_tags %}
+{% load i18n admin_urls %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'admin:index' %}">{% translate 'Home' %}</a>
+        &rsaquo; <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ opts.app_config.verbose_name }}</a>
+        &rsaquo; <a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a>
+        &rsaquo; {{ object }}
+    </div>
+{% endblock %}
+
+{% block content %}
+
+<h1>Upload Data - {{data_site}}</h1>
+
+<p>Use this tool to upload data for Data Site: {{data_site}}. 
+ </p>
+
+  <p>
+    CSV file should have the following columns/headers: <b>measurement_date,
+    measurement, station, species</b>
+  </p>
+
+<hr>
+
+<form class="form-horizontal" method="post" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    {{ form|crispy }}
+
+    <div class="row">
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        <strong>{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+
+    </div>
+
+    <input type="submit" value="Run Import" class="default" name="_upload" style="float: none;">
+  </form>
+{% endblock %}

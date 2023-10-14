@@ -1,0 +1,28 @@
+{% extends 'admin/base_site.html' %}
+
+{% load i18n admin_urls %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'admin:index' %}">{% translate 'Home' %}</a>
+        &rsaquo; <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ opts.app_config.verbose_name }}</a>
+        &rsaquo; <a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a>
+        &rsaquo; {{ object }}
+    </div>
+{% endblock %}
+
+{% block content %}
+
+<h1>Upload Data</h1>
+
+<div class="content">
+    <h1>Import Succesful!</h1>
+  
+    <p>Import is complete, the Data Site data have been uploaded successfully.
+    <hr>
+  
+    
+  </div>
+
+
+{% endblock %}
