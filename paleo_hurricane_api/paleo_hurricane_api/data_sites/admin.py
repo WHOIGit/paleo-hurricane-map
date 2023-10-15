@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.urls import path, reverse
 from django.utils.html import format_html
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.views.generic import FormView
+from django.views.generic import FormView, TemplateView
 from .models import *
 from .forms import DataSiteForm, DatapointCsvUploadForm
 
@@ -28,12 +28,18 @@ class DataSiteAdmin(admin.GeoModelAdmin):
                 self.admin_site.admin_view(DatapointCsvUploadView.as_view()),
                 name=f"data_upload",
             ),
+            path(
+                "<pk>/data_upload_success",
+                self.admin_site.admin_view(DatapointCsvUploadSuccessView.as_view()),
+                name=f"data_upload_success",
+            ),
             *super().get_urls(),
         ]
 
-    def data_upload(self, obj: DataSite) -> str:
+    def data_upload(self, obj: DataSite):
         url = reverse("admin:data_upload", args=[obj.pk])
         return format_html(f'<a href="{url}">Upload Data</a>')
+
 
 class DatapointCsvUploadView(PermissionRequiredMixin, FormView):
     form_class = DatapointCsvUploadForm
@@ -42,15 +48,14 @@ class DatapointCsvUploadView(PermissionRequiredMixin, FormView):
     model = DataSite
 
     def get_context_data(self, **kwargs):
-        data_site = DataSite.objects.get(pk=self.kwargs['pk'])
+        data_site = DataSite.objects.get(pk=self.kwargs["pk"])
         return {
             **super().get_context_data(**kwargs),
             **admin.site.each_context(self.request),
             "opts": self.model._meta,
-            "data_site": data_site
+            "data_site": data_site,
         }
 
-    
     def upload_csv(self, csv_file, data_site):
         # Set up the Django file object for CSV DictReader
         csv_file.seek(0)
@@ -59,43 +64,44 @@ class DatapointCsvUploadView(PermissionRequiredMixin, FormView):
         uploader = {"status": "pending", "data": list(), "errors": list()}
 
         for row in reader:
+            print(row)
             try:
                 row_info = f"Row info: {row['depth']}, {row['sand']}, {row['event_index']}, {row['median_age']}, {row['min_age']}, {row['max_age']}, {row['event_index_intense']}"
             except Exception as e:
                 print(e)
-                error = f"Error: CSV headers don't match expected headers - depth, sand, event_index, median_age, min_ag, max_age, event_index_intense"
+                error = f"Error: CSV headers don't match expected headers - depth, sand, event_index, median_age, min_age, max_age, event_index_intense"
                 uploader["errors"].append(error)
                 break
-            
+
             # delete any existing data
             datapoints = data_site.datapoints.all()
             datapoints.delete()
             print("Deleted datapoints")
 
-            depth = row['depth']
+            depth = row["depth"]
             sand = None
             event_index = None
             median_age = None
             min_age = None
             max_age = None
 
-            if row['sand']:
-                sand = row['sand']
+            if row["sand"]:
+                sand = row["sand"]
 
-            if row['event_index']:
-                event_index = row['event_index']
+            if row["event_index"]:
+                event_index = row["event_index"]
 
-            if row['median_age']:
-                median_age = row['median_age']
+            if row["median_age"]:
+                median_age = row["median_age"]
 
-            if row['min_age']:
-                min_age = row['min_age']
+            if row["min_age"]:
+                min_age = row["min_age"]
 
-            if row['max_age']:
-                max_age = row['max_age']
+            if row["max_age"]:
+                max_age = row["max_age"]
 
-            if row['event_index_intense']:
-                max_age = row['event_index_intense']
+            if row["event_index_intense"]:
+                max_age = row["event_index_intense"]
 
             if not uploader["errors"]:
                 datapoint = Datapoint(
@@ -121,7 +127,7 @@ class DatapointCsvUploadView(PermissionRequiredMixin, FormView):
 
     def form_valid(self, form):
         print(form.cleaned_data["datapoints_csv"])
-        data_site = DataSite.objects.get(pk=self.kwargs['pk'])
+        data_site = DataSite.objects.get(pk=self.kwargs["pk"])
         print(data_site)
         # csv_file = self.request.FILES["datapoints_csv"]
         csv_file = form.cleaned_data["datapoints_csv"]
@@ -130,16 +136,44 @@ class DatapointCsvUploadView(PermissionRequiredMixin, FormView):
         if uploader["status"] == "fail":
             for error in uploader["errors"]:
                 messages.error(self.request, error)
-            return HttpResponseRedirect(reverse("admin:data_upload", args=(self.kwargs['pk'])))
+            return HttpResponseRedirect(
+                reverse("admin:data_upload", args=(self.kwargs["pk"]))
+            )
 
         return super(DatapointCsvUploadView, self).form_valid(form)
 
     def get_success_url(self):
-        return reverse(
-            "admin:data_upload_success",
-        )
+        return reverse("admin:data_upload_success", args=(self.kwargs["pk"]))
+
+
+class DatapointCsvUploadSuccessView(TemplateView):
+    template_name = "admin/data_sites/data_upload_success.html"
+    model = DataSite
+
+    def get_context_data(self, **kwargs):
+        data_site = DataSite.objects.get(pk=self.kwargs["pk"])
+        return {
+            **super().get_context_data(**kwargs),
+            **admin.site.each_context(self.request),
+            "opts": self.model._meta,
+            "data_site": data_site,
+        }
+
+
+class DatapointAdmin(admin.ModelAdmin):
+    search_fields = ["data_site"]
+    list_display = (
+        "data_site",
+        "depth",
+        "sand",
+        "event_index",
+        "median_age",
+        "min_age",
+        "max_age",
+    )
+    list_filter = ("data_site",)
 
 
 admin.site.register(Compilation)
 admin.site.register(DataSite, DataSiteAdmin)
-admin.site.register(Datapoint, admin.ModelAdmin)
+admin.site.register(Datapoint, DatapointAdmin)
