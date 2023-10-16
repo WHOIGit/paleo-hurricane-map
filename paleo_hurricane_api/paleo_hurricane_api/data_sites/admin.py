@@ -63,8 +63,12 @@ class DatapointCsvUploadView(PermissionRequiredMixin, FormView):
 
         uploader = {"status": "pending", "data": list(), "errors": list()}
 
+        # delete any existing data
+        datapoints = data_site.datapoints.all()
+        datapoints.delete()
+        print("Deleted datapoints")
+
         for row in reader:
-            print(row)
             try:
                 row_info = f"Row info: {row['depth']}, {row['sand']}, {row['event_index']}, {row['median_age']}, {row['min_age']}, {row['max_age']}, {row['event_index_intense']}"
             except Exception as e:
@@ -72,11 +76,6 @@ class DatapointCsvUploadView(PermissionRequiredMixin, FormView):
                 error = f"Error: CSV headers don't match expected headers - depth, sand, event_index, median_age, min_age, max_age, event_index_intense"
                 uploader["errors"].append(error)
                 break
-
-            # delete any existing data
-            datapoints = data_site.datapoints.all()
-            datapoints.delete()
-            print("Deleted datapoints")
 
             depth = None
             sand = None
@@ -117,13 +116,18 @@ class DatapointCsvUploadView(PermissionRequiredMixin, FormView):
                     data_site=data_site,
                 )
 
-                uploader["data"].append(datapoint)
+                try:
+                    datapoint.save()
+                except Exception as e:
+                    print(e)
+                    continue
+                # uploader["data"].append(datapoint)
 
         if uploader["errors"]:
             uploader["status"] = "fail"
             return uploader
 
-        points = Datapoint.objects.bulk_create(uploader["data"])
+        # points = Datapoint.objects.bulk_create(uploader["data"])
         uploader["status"] = "ok"
 
         return uploader

@@ -107,8 +107,8 @@ class Datapoint(models.Model):
         related_name="datapoints",
         on_delete=models.CASCADE,
     )
-    depth = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
-    sand = models.DecimalField(max_digits=7, decimal_places=4, null=True, blank=True)
+    depth = models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)
+    sand = models.DecimalField(max_digits=8, decimal_places=4, null=True, blank=True)
     event_index = models.IntegerField(null=True, blank=True)
     intense_event_index = models.IntegerField(null=True, blank=True)
     median_age = models.DecimalField(
