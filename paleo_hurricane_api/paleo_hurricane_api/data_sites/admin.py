@@ -24,12 +24,12 @@ class DataSiteAdmin(admin.GeoModelAdmin):
     def get_urls(self):
         return [
             path(
-                "<pk>/data_upload",
+                "<int:pk>/data_upload",
                 self.admin_site.admin_view(DatapointCsvUploadView.as_view()),
                 name=f"data_upload",
             ),
             path(
-                "<pk>/data_upload_success",
+                "<int:pk>/data_upload_success",
                 self.admin_site.admin_view(DatapointCsvUploadSuccessView.as_view()),
                 name=f"data_upload_success",
             ),
@@ -144,13 +144,14 @@ class DatapointCsvUploadView(PermissionRequiredMixin, FormView):
             for error in uploader["errors"]:
                 messages.error(self.request, error)
             return HttpResponseRedirect(
-                reverse("admin:data_upload", args=(self.kwargs["pk"]))
+                reverse("admin:data_upload", args=[self.kwargs["pk"]])
             )
 
         return super(DatapointCsvUploadView, self).form_valid(form)
 
     def get_success_url(self):
-        return reverse("admin:data_upload_success", args=(self.kwargs["pk"]))
+        print(self.kwargs["pk"])
+        return reverse("admin:data_upload_success", args=[self.kwargs["pk"]])
 
 
 class DatapointCsvUploadSuccessView(TemplateView):
