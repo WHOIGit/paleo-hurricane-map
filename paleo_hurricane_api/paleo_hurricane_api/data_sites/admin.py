@@ -78,12 +78,15 @@ class DatapointCsvUploadView(PermissionRequiredMixin, FormView):
             datapoints.delete()
             print("Deleted datapoints")
 
-            depth = row["depth"]
+            depth = None
             sand = None
             event_index = None
             median_age = None
             min_age = None
             max_age = None
+
+            if row["depth"]:
+                depth = row["depth"]
 
             if row["sand"]:
                 sand = row["sand"]

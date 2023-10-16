@@ -55,6 +55,8 @@ export default function MapPopup({ feature, setPopupFeature }) {
     setValue(newValue);
   };
 
+  console.log(data);
+
   const renderFilelink = (datafile) => {
     return (
       <Box sx={{ my: 1 }}>

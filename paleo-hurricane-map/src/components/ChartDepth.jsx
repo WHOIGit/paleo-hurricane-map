@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Typography from "@mui/material/Typography";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 // need to add this extra window variable declaration
@@ -7,11 +8,17 @@ window.Highcharts = Highcharts;
 
 export default function ChartDepth({ data, yAxisLabel }) {
   console.log(data);
+  const [showChart, setShowChart] = useState(true);
   const [chartOptions, setChartOptions] = useState({});
 
   useEffect(() => {
-    const chartData = data.map((item) => [item.depth, item.sand]);
+    const chartData = data
+      .filter((item) => item.depth)
+      .map((item) => [item.depth, item.sand]);
+
     console.log(chartData);
+    if (!chartData.length) setShowChart(false);
+
     const chartOptions = {
       chart: {
         type: "spline",
@@ -60,5 +67,13 @@ export default function ChartDepth({ data, yAxisLabel }) {
     setChartOptions(chartOptions);
   }, [data]);
 
-  return <HighchartsReact highcharts={Highcharts} options={chartOptions} />;
+  if (showChart) {
+    return <HighchartsReact highcharts={Highcharts} options={chartOptions} />;
+  } else {
+    return (
+      <Typography variant="body1" gutterBottom>
+        Chart not available for this Data Site.
+      </Typography>
+    );
+  }
 }

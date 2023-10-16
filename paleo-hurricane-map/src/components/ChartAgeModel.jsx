@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Highcharts from "highcharts";
+import Typography from "@mui/material/Typography";
 import HighchartsReact from "highcharts-react-official";
 // need to add this extra window variable declaration
 // Highcharts has internal references that rely on it being defined on the window
@@ -7,14 +8,26 @@ window.Highcharts = Highcharts;
 
 export default function ChartAgeModel({ data }) {
   const [chartOptions, setChartOptions] = useState({});
-  const [chartIsLoaded, setChartIsLoaded] = useState(false);
+  const [showChart, setShowChart] = useState(true);
+
   const chartRef = useRef();
   console.log(chartRef.current?.chart);
   useEffect(() => {
-    const chartData = data.map((item) => [item.depth, item.median_age]);
-    const chartData2 = data.map((item) => [item.depth, item.min_age]);
-    const chartData3 = data.map((item) => [item.depth, item.max_age]);
+    const chartData = data
+      .filter((item) => item.depth && item.median_age)
+      .map((item) => [item.depth, item.median_age]);
+    const chartData2 = data
+      .filter((item) => item.depth && item.min_age)
+      .map((item) => [item.depth, item.min_age]);
+    const chartData3 = data
+      .filter((item) => item.depth && item.max_age)
+      .map((item) => [item.depth, item.max_age]);
 
+    console.log(chartData);
+
+    if (!chartData.length && !chartData2.length && !chartData3.length) {
+      setShowChart(false);
+    }
     const chartOptions = {
       chart: {
         type: "spline",
@@ -69,7 +82,6 @@ export default function ChartAgeModel({ data }) {
       ],
     };
     setChartOptions(chartOptions);
-    setChartIsLoaded(true);
   }, [data]);
 
   /*
@@ -89,11 +101,20 @@ export default function ChartAgeModel({ data }) {
     }
   }, [chartRef.current]);
   */
-  return (
-    <HighchartsReact
-      highcharts={Highcharts}
-      options={chartOptions}
-      ref={chartRef}
-    />
-  );
+
+  if (showChart) {
+    return (
+      <HighchartsReact
+        highcharts={Highcharts}
+        options={chartOptions}
+        ref={chartRef}
+      />
+    );
+  } else {
+    return (
+      <Typography variant="body1" gutterBottom>
+        Chart not available for this Data Site.
+      </Typography>
+    );
+  }
 }
