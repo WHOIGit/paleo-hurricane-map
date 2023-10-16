@@ -23,11 +23,10 @@ export default function ChartAgeModel({ data }) {
       .filter((item) => item.depth && item.max_age)
       .map((item) => [item.depth, item.max_age]);
 
-    console.log(chartData);
-
     if (!chartData.length && !chartData2.length && !chartData3.length) {
       setShowChart(false);
     }
+
     const chartOptions = {
       chart: {
         type: "spline",

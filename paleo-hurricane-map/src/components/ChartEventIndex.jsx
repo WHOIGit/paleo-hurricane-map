@@ -7,17 +7,20 @@ window.Highcharts = Highcharts;
 
 export default function ChartEventIndex({ data }) {
   const [chartOptions, setChartOptions] = useState({});
+  const [showChart, setShowChart] = useState(true);
 
   useEffect(() => {
     const chartData = data
       .filter((item) => item.event_index)
       .map((item) => [item.median_age, item.event_index]);
-    console.log(chartData);
 
     const chartDataIntense = data
       .filter((item) => item.intense_event_index)
       .map((item) => [item.median_age, item.intense_event_index]);
-    console.log(chartDataIntense);
+
+    if (!chartData.length && !chartDataIntense.length) {
+      setShowChart(false);
+    }
 
     const chartOptions = {
       chart: {
@@ -82,5 +85,13 @@ export default function ChartEventIndex({ data }) {
     setChartOptions(chartOptions);
   }, [data]);
 
-  return <HighchartsReact highcharts={Highcharts} options={chartOptions} />;
+  if (showChart) {
+    return <HighchartsReact highcharts={Highcharts} options={chartOptions} />;
+  } else {
+    return (
+      <Typography variant="body1" gutterBottom>
+        Chart not available for this Data Site.
+      </Typography>
+    );
+  }
 }
