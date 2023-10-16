@@ -83,6 +83,7 @@ class DatapointCsvUploadView(PermissionRequiredMixin, FormView):
             median_age = None
             min_age = None
             max_age = None
+            event_index_intense = None
 
             if row["depth"]:
                 depth = row["depth"]
@@ -103,13 +104,14 @@ class DatapointCsvUploadView(PermissionRequiredMixin, FormView):
                 max_age = row["max_age"]
 
             if row["event_index_intense"]:
-                max_age = row["event_index_intense"]
+                event_index_intense = row["event_index_intense"]
 
             if not uploader["errors"]:
                 datapoint = Datapoint(
                     depth=depth,
                     sand=sand,
                     event_index=event_index,
+                    event_index_intense=event_index_intense,
                     median_age=median_age,
                     min_age=min_age,
                     max_age=max_age,
