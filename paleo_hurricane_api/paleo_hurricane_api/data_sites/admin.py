@@ -70,10 +70,10 @@ class DatapointCsvUploadView(PermissionRequiredMixin, FormView):
 
         for row in reader:
             try:
-                row_info = f"Row info: {row['depth']}, {row['sand']}, {row['event_index']}, {row['median_age']}, {row['min_age']}, {row['max_age']}, {row['event_index_intense']}"
+                row_info = f"Row info: {row['depth']}, {row['sand']}, {row['event_index']}, {row['median_age']}, {row['min_age']}, {row['max_age']}, {row['intense_event_index']}"
             except Exception as e:
                 print(e)
-                error = f"Error: CSV headers don't match expected headers - depth, sand, event_index, median_age, min_age, max_age, event_index_intense"
+                error = f"Error: CSV headers don't match expected headers - depth, sand, event_index, median_age, min_age, max_age, intense_event_index"
                 uploader["errors"].append(error)
                 break
 
@@ -83,7 +83,7 @@ class DatapointCsvUploadView(PermissionRequiredMixin, FormView):
             median_age = None
             min_age = None
             max_age = None
-            event_index_intense = None
+            intense_event_index = None
 
             if row["depth"]:
                 depth = row["depth"]
@@ -103,15 +103,15 @@ class DatapointCsvUploadView(PermissionRequiredMixin, FormView):
             if row["max_age"]:
                 max_age = row["max_age"]
 
-            if row["event_index_intense"]:
-                event_index_intense = row["event_index_intense"]
+            if row["intense_event_index"]:
+                intense_event_index = row["intense_event_index"]
 
             if not uploader["errors"]:
                 datapoint = Datapoint(
                     depth=depth,
                     sand=sand,
                     event_index=event_index,
-                    event_index_intense=event_index_intense,
+                    intense_event_index=intense_event_index,
                     median_age=median_age,
                     min_age=min_age,
                     max_age=max_age,
