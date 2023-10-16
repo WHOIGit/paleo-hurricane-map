@@ -69,6 +69,8 @@ export default function MapPopup({ feature, setPopupFeature }) {
     );
   };
 
+  if (!data) return null;
+
   return (
     <Popup
       anchor="top"
@@ -97,48 +99,64 @@ export default function MapPopup({ feature, setPopupFeature }) {
         <TabPanel value={value} index={0}>
           <div>
             <Typography variant="h6" gutterBottom>
-              {feature.properties.name}
+              {data.properties.name}
             </Typography>
             <Typography variant="body2" gutterBottom>
               Location: {feature.properties.location} (
-              {feature.geometry.coordinates[1]}&deg;,{" "}
-              {feature.geometry.coordinates[0]}&deg;)
+              {data.geometry.coordinates[1]}&deg;,{" "}
+              {data.geometry.coordinates[0]}&deg;)
             </Typography>
             <Typography variant="body2" gutterBottom>
-              Publication: {feature.properties.authors}. (
-              {feature.properties.publication_year}).{" "}
-              {feature.properties.publication_title}.{" "}
-              <em>{feature.properties.publication_journal}</em>
-              {feature.properties.publication_volume && ", "}
-              {feature.properties.publication_volume}
-              {feature.properties.publication_edition && ", "}
-              {feature.properties.publication_edition}
-              {feature.properties.publication_issue && ", "}
-              {feature.properties.publication_issue}
-              {feature.properties.publication_report_number && ", "}
-              {feature.properties.publication_report_number}
-              {feature.properties.publication_pages && ", "}
-              {feature.properties.publication_pages}. https://doi.org/
-              {feature.properties.publication_doi}
-            </Typography>
-
-            <Typography variant="body2" gutterBottom>
-              Proxy Type: {feature.properties.proxy_type}
+              Publication: {data.properties.authors}. (
+              {data.properties.publication_year}).{" "}
+              {data.properties.publication_title}.{" "}
+              <em>{data.properties.publication_journal}</em>
+              {data.properties.publication_volume && ", "}
+              {data.properties.publication_volume}
+              {data.properties.publication_edition && ", "}
+              {data.properties.publication_edition}
+              {data.properties.publication_issue && ", "}
+              {data.properties.publication_issue}
+              {data.properties.publication_report_number && ", "}
+              {data.properties.publication_report_number}
+              {data.properties.publication_pages && ", "}
+              {data.properties.publication_pages}. https://doi.org/
+              {data.properties.publication_doi}
             </Typography>
 
             <Typography variant="body2" gutterBottom>
-              Compilation: {feature.properties.compilation}
+              Proxy Type: {data.properties.proxy_type}
+            </Typography>
+
+            {data.properties.compilation && (
+              <Typography variant="body2" gutterBottom>
+                Compilation: {data.properties.compilation_detail?.location}
+              </Typography>
+            )}
+
+            {data.properties.compilation && (
+              <Typography variant="body2" gutterBottom>
+                Compilation Study:{" "}
+                {data.properties.compilation_detail?.study_title} (
+                <a
+                  href={data.properties.compilation_detail?.document}
+                  target="_blank"
+                >
+                  download
+                </a>
+                )
+              </Typography>
+            )}
+
+            <Typography variant="body2" gutterBottom>
+              Timespan of Record: {data.properties.timespan}
             </Typography>
 
             <Typography variant="body2" gutterBottom>
-              Timespan of Record: {feature.properties.timespan}
-            </Typography>
-
-            <Typography variant="body2" gutterBottom>
-              Resolution: {feature.properties.resolution}
+              Resolution: {data.properties.resolution}
             </Typography>
             <hr />
-            {feature.properties.data_files.map((datafile) =>
+            {data.properties.data_files.map((datafile) =>
               renderFilelink(datafile)
             )}
 
