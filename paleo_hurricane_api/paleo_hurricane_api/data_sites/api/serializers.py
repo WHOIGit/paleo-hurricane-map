@@ -81,15 +81,3 @@ class DataSiteDetailSerializer(DataSiteListSerializer):
             "compilation_detail",
             "data",
         ]
-
-    def get_compilation_detail(self, obj):
-        if obj.compilation:
-
-            return {
-                "study_title": obj.compilation.study_title,
-                "location": obj.compilation.location,
-                "document": obj.compilation.document.url
-                if obj.compilation.document
-                else None,
-            }
-        return None
