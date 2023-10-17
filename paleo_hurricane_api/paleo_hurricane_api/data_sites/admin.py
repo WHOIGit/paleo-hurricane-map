@@ -77,6 +77,11 @@ class DatapointCsvUploadView(PermissionRequiredMixin, FormView):
                 uploader["errors"].append(error)
                 break
 
+            # remove any NaN text
+            for key, value in row.items():
+                if value == "NaN":
+                    row[key] = ""
+
             depth = None
             sand = None
             event_index = None
