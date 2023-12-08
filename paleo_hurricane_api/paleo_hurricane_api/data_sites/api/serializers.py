@@ -28,7 +28,7 @@ class DataFileSerializer(serializers.ModelSerializer):
 
 
 class DataSiteListSerializer(GeoFeatureModelSerializer):
-    timespan = serializers.SerializerMethodField("get_timespan")
+    record_length = serializers.SerializerMethodField()
     data_files = DataFileSerializer(many=True)
 
     class Meta:
@@ -58,12 +58,12 @@ class DataSiteListSerializer(GeoFeatureModelSerializer):
             "proxy_type",
             "compilation",
             "resolution",
-            "timespan",
+            "record_length",
             "data_files",
             "depth_y_axis_label",
         ]
 
-    def get_timespan(self, obj):
+    def get_record_length(self, obj):
         try:
             timespan = abs(obj.newest_year - obj.oldest_year)
             return timespan

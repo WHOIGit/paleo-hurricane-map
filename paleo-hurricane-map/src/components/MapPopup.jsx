@@ -75,7 +75,6 @@ export default function MapPopup({ feature, setPopupFeature }) {
 
   return (
     <Popup
-      anchor="top"
       longitude={Number(feature.geometry.coordinates[0])}
       latitude={Number(feature.geometry.coordinates[1])}
       onClose={() => setPopupFeature(null)}
@@ -129,7 +128,7 @@ export default function MapPopup({ feature, setPopupFeature }) {
             </Typography>
 
             <Typography variant="body2" gutterBottom>
-              Proxy Type: {data.properties.proxy_type}
+              Type of Record: {data.properties.proxy_type}
             </Typography>
 
             {data.properties.compilation && (
@@ -153,7 +152,7 @@ export default function MapPopup({ feature, setPopupFeature }) {
             )}
 
             <Typography variant="body2" gutterBottom>
-              Timespan of Record: {data.properties.timespan}
+              Length of Record: {data.properties.record_length}
             </Typography>
 
             <Typography variant="body2" gutterBottom>

@@ -36,7 +36,7 @@ const GeoShape = ({ item }) => {
 export default function MapMarkers() {
   const [proxy, setProxy] = React.useState("");
   const [compilation, setCompilation] = React.useState("");
-  const [timespan, setTimespan] = React.useState("");
+  const [length, setLength] = React.useState("");
   const [resolution, setResolution] = React.useState("");
   const [mapData, setMapData] = React.useState(null);
   const { data, isLoading, isError } = useDataSites();
@@ -48,12 +48,12 @@ export default function MapMarkers() {
     // filter results by form inputs
     if (data) {
       // check if any filters are set
-      if (proxy || compilation || timespan || resolution) {
+      if (proxy || compilation || length || resolution) {
         console.log("filter set");
         const newFeatures = data.features.filter((item) => {
           let proxyCheck = true;
           let compilationCheck = true;
-          let timespanCheck = true;
+          let lengthCheck = true;
           let resolutionCheck = true;
 
           if (proxy) {
@@ -64,12 +64,12 @@ export default function MapMarkers() {
             compilationCheck = item.properties.compilation === compilation;
           }
 
-          if (timespan) {
-            console.log(timespan.split(","));
-            const timeArray = timespan.split(",");
-            timespanCheck =
-              item.properties.timespan >= timeArray[0] &&
-              item.properties.timespan <= timeArray[1];
+          if (length) {
+            console.log(length.split(","));
+            const timeArray = length.split(",");
+            lengthCheck =
+              item.properties.record_length >= timeArray[0] &&
+              item.properties.record_length <= timeArray[1];
           }
 
           if (resolution) {
@@ -77,7 +77,7 @@ export default function MapMarkers() {
           }
 
           return (
-            proxyCheck && compilationCheck && timespanCheck & resolutionCheck
+            proxyCheck && compilationCheck && lengthCheck & resolutionCheck
           );
         });
 
@@ -88,19 +88,17 @@ export default function MapMarkers() {
         setMapData(data);
       }
     }
-  }, [data, proxy, compilation, timespan, resolution]);
+  }, [data, proxy, compilation, length, resolution]);
 
   const renderMarker = (item) => {
     let markerColor = "blue";
     // set marker color to match Compilation
-    if (item.properties.compilation == 1) {
+    if (item.properties.proxy_type == "Sediment") {
       markerColor = "orange";
-    } else if (item.properties.compilation == 2) {
+    } else if (item.properties.proxy_type == "Historical Archive") {
       markerColor = "green";
     }
-    if (item.properties.compilation == 3) {
-      markerColor = "red";
-    }
+
     return (
       <div key={`marker-${item.id}`}>
         <Marker
@@ -128,8 +126,8 @@ export default function MapMarkers() {
         setProxy={setProxy}
         compilation={compilation}
         setCompilation={setCompilation}
-        timespan={timespan}
-        setTimespan={setTimespan}
+        length={length}
+        setLength={setLength}
         resolution={resolution}
         setResolution={setResolution}
       />

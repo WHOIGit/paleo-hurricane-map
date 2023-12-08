@@ -24,8 +24,8 @@ export default function FilterBox({
   setProxy,
   compilation,
   setCompilation,
-  timespan,
-  setTimespan,
+  length,
+  setLength,
   resolution,
   setResolution,
 }) {
@@ -40,8 +40,8 @@ export default function FilterBox({
     setCompilation(event.target.value);
   };
 
-  const handleTimespanChange = (event) => {
-    setTimespan(event.target.value);
+  const handleLengthChange = (event) => {
+    setLength(event.target.value);
   };
 
   const handleResolutionChange = (event) => {
@@ -51,7 +51,7 @@ export default function FilterBox({
   const clearFilters = () => {
     setProxy("");
     setCompilation("");
-    setTimespan("");
+    setLength("");
     setResolution("");
   };
 
@@ -70,7 +70,7 @@ export default function FilterBox({
         </Typography>
 
         <FormControl fullWidth sx={{ mb: 2 }}>
-          <InputLabel id="proxy-label">Proxy</InputLabel>
+          <InputLabel id="proxy-label">Type of Record</InputLabel>
           <Select
             labelId="proxy-label"
             id="proxy-select"
@@ -109,19 +109,19 @@ export default function FilterBox({
         </FormControl>
 
         <FormControl fullWidth sx={{ mb: 2 }}>
-          <InputLabel id="timespan-label">Timespan of Record</InputLabel>
+          <InputLabel id="length-label">Length of Record</InputLabel>
           <Select
-            labelId="timespan-label"
-            id="timespan-select"
-            value={timespan}
-            label="Timespan of Record"
-            onChange={handleTimespanChange}
+            labelId="length-label"
+            id="length-select"
+            value={length}
+            label="Length of Record"
+            onChange={handleLengthChange}
           >
             <MenuItem value="">
               <em>None</em>
             </MenuItem>
             <MenuItem value={"0,2000"}>0-2000 years</MenuItem>
-            <MenuItem value={"2001,6000"}>2001-6000 years</MenuItem>
+            <MenuItem value={"2001,100000000000"}>&gt;2000 years</MenuItem>
             <MenuItem value={"6001,100000000000"}>&gt;6000 years</MenuItem>
           </Select>
         </FormControl>
