@@ -84,6 +84,11 @@ export default function MapPopup({ feature, setPopupFeature }) {
       className="popup-container"
     >
       <Box sx={{ width: "100%" }}>
+        <Box>
+          <Typography variant="h6" gutterBottom>
+            {data.properties.name}
+          </Typography>
+        </Box>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs value={value} onChange={handleChange} aria-label="data tabs">
             <Tab label="Metadata" {...a11yProps(0)} />
@@ -100,9 +105,6 @@ export default function MapPopup({ feature, setPopupFeature }) {
         </Box>
         <TabPanel value={value} index={0}>
           <div>
-            <Typography variant="h6" gutterBottom>
-              {data.properties.name}
-            </Typography>
             <Typography variant="body2" gutterBottom>
               Location: {feature.properties.location} (
               {data.geometry.coordinates[1]}&deg;,{" "}
