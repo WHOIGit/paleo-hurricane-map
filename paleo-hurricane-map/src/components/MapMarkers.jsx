@@ -6,6 +6,7 @@ import MapPopup from "./MapPopup";
 import FilterBox from "./FilterBox";
 import CompilationBox from "./CompilationBox";
 import { useEffect } from "react";
+import LegendBox from "./LegendBox";
 
 const GeoShape = ({ item }) => {
   // render any Geo shapes attached to this location
@@ -112,7 +113,7 @@ export default function MapMarkers() {
             setPopupFeature(item);
           }}
         />
-        <GeoShape item={item} />
+        {/*<GeoShape item={item} /> */}
       </div>
     );
   };
@@ -139,6 +140,7 @@ export default function MapMarkers() {
       {popupFeature && (
         <MapPopup feature={popupFeature} setPopupFeature={setPopupFeature} />
       )}
+      <LegendBox />
     </div>
   );
 }
