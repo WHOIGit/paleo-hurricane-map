@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Typography from "@mui/material/Typography";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 // need to add this extra window variable declaration
