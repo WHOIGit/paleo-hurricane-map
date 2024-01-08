@@ -24,13 +24,18 @@ start = time.time()
 
 while True:
     try:
-        psycopg2.connect(
+        conn = psycopg2.connect(
             dbname="${POSTGRES_DB}",
             user="${POSTGRES_USER}",
             password="${POSTGRES_PASSWORD}",
             host="${POSTGRES_HOST}",
             port="${POSTGRES_PORT}",
         )
+        cur = conn.cursor()
+        cur.execute("CREATE EXTENSION IF NOT EXISTS postgis;")
+        conn.commit()
+        cur.close()
+        conn.close()
         break
     except psycopg2.OperationalError as error:
         sys.stderr.write("Waiting for PostgreSQL to become available...\n")

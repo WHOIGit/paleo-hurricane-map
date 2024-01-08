@@ -73,6 +73,7 @@ THIRD_PARTY_APPS = [
     "rest_framework_gis",
     "corsheaders",
     "drf_spectacular",
+    "storages",
     # "django_extensions",
 ]
 
