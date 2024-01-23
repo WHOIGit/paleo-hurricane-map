@@ -70,6 +70,7 @@ SECURE_HSTS_PRELOAD = env.bool("DJANGO_SECURE_HSTS_PRELOAD", default=False)
 SECURE_CONTENT_TYPE_NOSNIFF = env.bool(
     "DJANGO_SECURE_CONTENT_TYPE_NOSNIFF", default=False
 )
+CSRF_TRUSTED_ORIGINS = ["https://paleohurdat.whoi.edu"]
 
 # STORAGES
 # ------------------------------------------------------------------------------
