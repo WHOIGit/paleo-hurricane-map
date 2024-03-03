@@ -45,9 +45,9 @@ export default function ChartEventIndex({ data }) {
         title: {
           text: "Event",
         },
-        tickInterval: 2,
+        tickInterval: 1,
         labels: {
-          enabled: false,
+          enabled: true,
           formatter: function () {
             return this.value;
           },

@@ -41,7 +41,7 @@ export default function Layout() {
 
           <Typography variant="h6" color="inherit" noWrap sx={{ flexGrow: 1 }}>
             <Link color="#fff" sx={{ textDecoration: "none" }} href="/">
-              PaleoHurdat
+              PaleoHURDAT
             </Link>
           </Typography>
           <nav>
@@ -50,6 +50,14 @@ export default function Layout() {
             </Link>
             <Link variant="button" color="#fff" href="/about" sx={navLinkSX}>
               About
+            </Link>
+            <Link
+              variant="button"
+              color="#fff"
+              href="/contribute"
+              sx={navLinkSX}
+            >
+              Contribute your data
             </Link>
           </nav>
         </Toolbar>

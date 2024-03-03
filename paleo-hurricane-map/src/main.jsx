@@ -13,6 +13,7 @@ import Root from "./routes/root";
 import About from "./routes/about";
 import Layout from "./components/Layout";
 import ErrorPage from "./error-page";
+import Contribute from "./routes/contribute";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "about",
         element: <About />,
+      },
+      {
+        path: "contribute",
+        element: <Contribute />,
       },
     ],
   },

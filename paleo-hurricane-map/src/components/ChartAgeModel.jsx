@@ -44,7 +44,7 @@ export default function ChartAgeModel({ data }) {
       yAxis: {
         offset: 0,
         title: {
-          text: "Age",
+          text: "Year CE",
         },
       },
       legend: {
