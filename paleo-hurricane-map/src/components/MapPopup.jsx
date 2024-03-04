@@ -92,13 +92,25 @@ export default function MapPopup({ feature, setPopupFeature }) {
           <Tabs value={value} onChange={handleChange} aria-label="data tabs">
             <Tab label="Metadata" {...a11yProps(0)} />
             {data?.properties.data.length && (
-              <Tab label="Depth/Sand" {...a11yProps(1)} />
+              <Tab
+                label="Depth/Sand"
+                {...a11yProps(1)}
+                disabled={!data?.properties.has_depth_data}
+              />
             )}
             {data?.properties.data.length && (
-              <Tab label="Age of Events" {...a11yProps(2)} />
+              <Tab
+                label="Age of Events"
+                {...a11yProps(2)}
+                disabled={!data?.properties.has_event_data}
+              />
             )}
             {data?.properties.data.length && (
-              <Tab label="Age Model" {...a11yProps(3)} />
+              <Tab
+                label="Age Model"
+                {...a11yProps(3)}
+                disabled={!data?.properties.has_age_model_data}
+              />
             )}
           </Tabs>
         </Box>

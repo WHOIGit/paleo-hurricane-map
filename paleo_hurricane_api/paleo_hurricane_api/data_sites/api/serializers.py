@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from rest_framework_gis.serializers import GeoFeatureModelSerializer
+from django.db.models import Q
 from ..models import DataSite, Datapoint, DataFile, Compilation
 
 
@@ -75,9 +76,52 @@ class DataSiteDetailSerializer(DataSiteListSerializer):
     # Use separate serializer for Detail view so "data" is returned as well
     data = DatapointSerializer(source="datapoints", many=True)
     compilation_detail = CompilationSerializer(source="compilation")
+    has_depth_data = serializers.SerializerMethodField()
+    has_event_data = serializers.SerializerMethodField()
+    has_age_model_data = serializers.SerializerMethodField()
 
     class Meta(DataSiteListSerializer.Meta):
         fields = DataSiteListSerializer.Meta.fields + [
             "compilation_detail",
+            "has_depth_data",
+            "has_event_data",
+            "has_age_model_data",
             "data",
         ]
+
+    def get_has_depth_data(self, obj):
+        try:
+            data = obj.datapoints.filter(sand__isnull=False)
+            if data.exists():
+                return True
+            return False
+        except:
+            return False
+
+    def get_has_event_data(self, obj):
+        try:
+            data = obj.datapoints.filter(event_index__isnull=False)
+            if data.exists():
+                return True
+            return False
+        except:
+            return False
+
+    def get_has_age_model_data(self, obj):
+        try:
+            # check for depth data first
+            data = obj.datapoints.filter(depth__isnull=False)
+            if not data.exists():
+                return False
+
+            data = obj.datapoints.filter(
+                Q(median_age__isnull=False)
+                | Q(max_age__isnull=False)
+                | Q(min_age__isnull=False)
+                | Q(depth__isnull=False)
+            )
+            if data.exists():
+                return True
+            return False
+        except:
+            return False

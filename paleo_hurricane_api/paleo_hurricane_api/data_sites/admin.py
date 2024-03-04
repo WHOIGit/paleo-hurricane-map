@@ -72,7 +72,7 @@ class DatapointCsvUploadView(PermissionRequiredMixin, FormView):
             try:
                 row_info = f"Row info: {row['depth']}, {row['sand']}, {row['event_index']}, {row['median_age']}, {row['min_age']}, {row['max_age']}, {row['intense_event_index']}"
             except Exception as e:
-                print(e)
+                print("ERROR", e, row)
                 error = f"Error: CSV headers don't match expected headers - depth, sand, event_index, median_age, min_age, max_age, intense_event_index"
                 uploader["errors"].append(error)
                 break
