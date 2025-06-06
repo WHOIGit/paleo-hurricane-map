@@ -7,12 +7,12 @@ volumes:
 
 services:
   paleohurdat_react:
-    image: ghcr.io/whoigit/paleohurdat-react-map:stable
+    image: ghcr.io/whoigit/paleohurdat-frontend:main
     container_name: paleohurdat_react
     restart: unless-stopped
 
   paleohurdat_django:
-    image: ghcr.io/whoigit/paleohurdat-api:stable
+    image: ghcr.io/whoigit/paleohurdat-api:main
     container_name: paleohurdat_django
     depends_on:
       - paleohurdat_postgres
