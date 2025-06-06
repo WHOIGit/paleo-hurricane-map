@@ -25,7 +25,7 @@ services:
   postgres:
     build:
       context: .
-      dockerfile: ./compose/production/postgres/m1.Dockerfile
+      dockerfile: ./compose/production/postgres/Dockerfile
     image: paleo_hurricane_api_production_postgres
     container_name: paleo_hurricane_api_local_postgres
     volumes:

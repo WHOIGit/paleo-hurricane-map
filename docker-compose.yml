@@ -1,9 +1,9 @@
-version: '3'
+version: "3"
 
 volumes:
   paleohurdat_production_postgres_data: {}
   paleohurdat_production_postgres_data_backups: {}
-  paleohurdat_media_volume: {}
+  #paleohurdat_media_volume: {}
 
 services:
   paleohurdat_react:
@@ -18,7 +18,7 @@ services:
       - paleohurdat_postgres
       - paleohurdat_redis
     volumes:
-      - paleohurdat_media_volume:/app/media # <-- bind the media files. Shared volume. Need to also bind to nginx container service
+      - /opt/paleohurdat/media:/app/media # <-- bind the media files. Shared volume. Need to also bind to nginx container service
     env_file:
       - ./.envs/.production/.django
       - ./.envs/.production/.postgres
@@ -26,7 +26,7 @@ services:
     restart: unless-stopped
 
   paleohurdat_postgres:
-    image: ghcr.io/whoigit/postgres-postgis-docker:14
+    image: ghcr.io/whoigit/postgres-postgis-docker:16
     container_name: paleohurdat_postgres
     volumes:
       - paleohurdat_production_postgres_data:/var/lib/postgresql/data:Z
@@ -43,4 +43,4 @@ services:
 networks:
   default:
     external:
-      name: habhub-network
+      name: sedcore-network
